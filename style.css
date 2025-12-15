@@ -2006,7 +2006,7 @@ textarea {
 
 .resources-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-lg);
   width: min(1100px, 100%);
   margin-top: var(--space-lg);
@@ -2057,6 +2057,75 @@ textarea {
   font-size: var(--font-size-cta);
 }
 
+/* Resource icon styling */
+.resource-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  background: rgba(244, 238, 224, 0.08);
+  color: var(--accent-secondary);
+  margin-bottom: var(--space-sm);
+  transition: background 220ms ease, color 220ms ease, transform 220ms ease;
+}
+
+/* Card variant: Primary (Portfolio) - Featured style */
+.resource-card--primary {
+  grid-column: span 1;
+  border-color: rgba(210, 153, 194, 0.2);
+  position: relative;
+}
+
+.resource-card--primary .resource-icon {
+  background: rgba(210, 153, 194, 0.12);
+  color: var(--accent-primary);
+}
+
+.resource-card--primary:hover .resource-icon,
+.resource-card--primary:focus .resource-icon {
+  background: var(--accent-primary);
+  color: #F4EEE0;
+  transform: scale(1.1);
+}
+
+/* Card variant: Secondary (GitHub) */
+.resource-card--secondary {
+  grid-column: span 1;
+  border-color: rgba(142, 197, 252, 0.15);
+}
+
+.resource-card--secondary .resource-icon {
+  background: rgba(142, 197, 252, 0.12);
+  color: var(--accent-secondary);
+}
+
+.resource-card--secondary:hover .resource-icon,
+.resource-card--secondary:focus .resource-icon {
+  background: var(--accent-secondary);
+  color: #111;
+  transform: scale(1.1);
+}
+
+/* Card variant: Tertiary (Writings) */
+.resource-card--tertiary {
+  grid-column: span 1;
+  border-color: rgba(244, 238, 224, 0.08);
+}
+
+.resource-card--tertiary .resource-icon {
+  background: rgba(244, 238, 224, 0.12);
+  color: rgba(244, 238, 224, 0.8);
+}
+
+.resource-card--tertiary:hover .resource-icon,
+.resource-card--tertiary:focus .resource-icon {
+  background: rgba(244, 238, 224, 0.2);
+  color: var(--accent-secondary);
+  transform: scale(1.1);
+}
+
 /* Make title/description/button align across cards */
 .resource-card {
   display: flex;
@@ -2088,9 +2157,38 @@ textarea {
 }
 
 /* Responsive: fewer columns */
-@media (max-width: 1000px) {
-  .resources-grid { gap: var(--space-md); }
+@media (max-width: 1200px) {
+  .resources-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
 }
+
+@media (max-width: 1000px) {
+  .resources-grid { 
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+}
+
+@media (max-width: 768px) {
+  .resources-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+}
+
+@media (max-width: 640px) {
+  .resources-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  .resource-card {
+    min-height: auto;
+    padding: var(--space-md);
+  }
+}
+
 @media (max-width: 540px) {
   /* Stack cards as a vertical list on small phones */
   .resources-grid { display: block; grid-template-columns: none; gap: 1rem; }
@@ -2105,11 +2203,538 @@ textarea {
   .resource-cta { align-self: flex-start !important; margin-top: 0.12rem !important; }
 }
 
-/* Additional responsive tuning for Resources */
-@media (max-width: 1000px) {
-  .resources-grid { grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: var(--space-md); }
-  .resource-card { min-height: 160px; padding: 1.25rem; }
+/* ================================================== 
+   Projects Section
+   ================================================== */
+
+.projects {
+  background: transparent;
+  padding: var(--section-padding-y) 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
+
+.projects-inner {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg) var(--space-md);
+}
+
+.projects-title {
+  font-family: var(--font-base);
+  color: var(--text-primary);
+  font-size: var(--font-size-section-title);
+  margin: 0;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.projects-sub {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: var(--font-size-subhead);
+  text-align: center;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+  width: min(1100px, 100%);
+  margin-top: var(--space-lg);
+  align-items: stretch;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  background: rgba(244,238,224,0.035);
+  border-radius: 14px;
+  color: var(--text-primary);
+  border: 1px solid rgba(244,238,224,0.04);
+  transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+  min-height: clamp(240px, auto, 320px);
+}
+
+.project-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.project-name {
+  font-weight: 700;
+  font-size: clamp(1.05rem, 1.4vw, 1.35rem);
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.project-tag {
+  display: inline-block;
+  background: rgba(210, 153, 194, 0.15);
+  color: var(--accent-primary);
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-size: clamp(0.8rem, 0.95vw, 0.95rem);
+  font-weight: 600;
+  border: 1px solid rgba(210, 153, 194, 0.3);
+}
+
+.project-desc {
+  color: var(--text-muted);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+  margin-top: 0.25rem;
+}
+
+.project-links {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: auto;
+  padding-top: var(--space-sm);
+}
+
+.project-link {
+  display: inline-block;
+  background: transparent;
+  color: var(--text-primary);
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(244,238,224,0.06);
+  font-weight: 700;
+  font-size: var(--font-size-cta);
+  text-decoration: none;
+  transition: all 220ms ease;
+}
+
+.project-card:hover,
+.project-card:focus {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+  background: rgba(244,238,224,0.04);
+}
+
+.project-link:hover {
+  background: var(--accent-secondary);
+  color: #111;
+  border-color: transparent;
+}
+
+@media (max-width: 1200px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1000px) {
+  .projects-grid { 
+    gap: var(--space-md);
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .project-card {
+    min-height: auto;
+    padding: var(--space-md);
+  }
+  .project-name {
+    font-size: clamp(1rem, 1.2vw, 1.2rem);
+  }
+  .project-desc {
+    font-size: clamp(0.9rem, 1vw, 0.95rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .projects-inner {
+    padding: var(--space-lg) var(--space-sm);
+  }
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    width: 100%;
+  }
+  .project-card {
+    min-height: auto;
+    padding: var(--space-md);
+    gap: var(--space-xs);
+  }
+  .project-name {
+    font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+  }
+  .project-tag {
+    font-size: clamp(0.7rem, 0.85vw, 0.85rem);
+    padding: 0.2rem 0.6rem;
+  }
+  .project-desc {
+    font-size: clamp(0.85rem, 0.95vw, 0.9rem);
+  }
+  .project-link {
+    padding: 0.35rem 0.8rem;
+    font-size: clamp(0.8rem, 0.9vw, 0.9rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .projects-title {
+    font-size: clamp(1.8rem, 2.6vw, 2.2rem);
+  }
+  .projects-sub {
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+  }
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+    width: 100%;
+    margin-top: var(--space-md);
+  }
+  .project-card {
+    min-height: auto;
+    padding: 0.9rem;
+    gap: 0.4rem;
+  }
+  .project-header {
+    gap: 0.3rem;
+  }
+  .project-name {
+    font-size: clamp(0.9rem, 2.4vw, 1rem);
+  }
+  .project-tags {
+    gap: 0.3rem;
+  }
+  .project-tag {
+    font-size: clamp(0.65rem, 1.8vw, 0.8rem);
+    padding: 0.15rem 0.5rem;
+  }
+  .project-desc {
+    font-size: clamp(0.8rem, 1.8vw, 0.85rem);
+    line-height: 1.4;
+  }
+  .project-links {
+    gap: 0.4rem;
+    padding-top: 0.4rem;
+  }
+  .project-link {
+    padding: 0.3rem 0.7rem;
+    font-size: clamp(0.7rem, 1.6vw, 0.8rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .projects-inner {
+    padding: var(--space-md) var(--space-sm);
+  }
+  .projects-title {
+    font-size: clamp(1.6rem, 2.8vw, 1.9rem);
+  }
+  .projects-sub {
+    font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+  }
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+    margin-top: var(--space-md);
+  }
+  .project-card {
+    padding: 0.75rem;
+    gap: 0.3rem;
+    min-height: auto;
+  }
+  .project-header {
+    gap: 0.25rem;
+  }
+  .project-name {
+    font-size: clamp(0.85rem, 2.6vw, 0.95rem);
+  }
+  .project-tag {
+    font-size: clamp(0.6rem, 1.8vw, 0.75rem);
+    padding: 0.1rem 0.4rem;
+  }
+  .project-desc {
+    font-size: clamp(0.75rem, 2vw, 0.8rem);
+    line-height: 1.35;
+    margin-top: 0.1rem;
+  }
+  .project-links {
+    gap: 0.3rem;
+    padding-top: 0.3rem;
+  }
+  .project-link {
+    padding: 0.25rem 0.6rem;
+    font-size: clamp(0.65rem, 1.5vw, 0.75rem);
+  }
+}
+
+@media (max-width: 320px) {
+  .projects-inner {
+    padding: var(--space-md) 0.5rem;
+  }
+  .projects-title {
+    font-size: clamp(1.4rem, 3vw, 1.7rem);
+  }
+  .project-card {
+    padding: 0.6rem;
+    gap: 0.25rem;
+  }
+  .project-name {
+    font-size: clamp(0.8rem, 2.8vw, 0.9rem);
+  }
+  .project-tag {
+    font-size: clamp(0.55rem, 1.5vw, 0.7rem);
+    padding: 0.08rem 0.3rem;
+  }
+  .project-desc {
+    font-size: clamp(0.7rem, 1.8vw, 0.75rem);
+  }
+}
+
+
+/* ================================================== 
+   Hobbies Section
+   ================================================== */
+
+.hobbies {
+  background: transparent;
+  padding: var(--section-padding-y) 0;
+  min-height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.hobbies-inner {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg) var(--space-md);
+}
+
+.hobbies-title {
+  font-family: var(--font-base);
+  color: var(--text-primary);
+  font-size: var(--font-size-section-title);
+  margin: 0;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.hobbies-sub {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: var(--font-size-subhead);
+  text-align: center;
+}
+
+
+.hobbies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: var(--space-lg);
+  width: min(1100px, 100%);
+  margin-top: var(--space-lg);
+  align-items: stretch; /* stretch cards to match heights across the row */
+}
+
+.hobby-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: rgba(244,238,224,0.035);
+  border-radius: 14px;
+  color: var(--text-primary);
+  border: 1px solid rgba(244,238,224,0.04);
+  transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+  text-align: center;
+  min-height: clamp(220px, 26vh, 280px); /* align height with other card sections */
+  height: 100%; /* fill stretched grid cell */
+}
+
+.hobby-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  background: rgba(142, 197, 252, 0.12);
+  color: var(--accent-secondary);
+  transition: all 220ms ease;
+}
+
+.hobby-name {
+  font-weight: 700;
+  font-size: clamp(1.1rem, 1.4vw, 1.3rem);
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.hobby-desc {
+  color: var(--text-muted);
+  font-size: clamp(0.9rem, 1vw, 1rem);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.hobby-card:hover,
+.hobby-card:focus {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+  background: rgba(244,238,224,0.04);
+}
+
+.hobby-card:hover .hobby-icon {
+  background: var(--accent-secondary);
+  color: #111;
+  transform: scale(1.1);
+}
+
+@media (max-width: 1200px) {
+  .hobbies-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+  }
+}
+
+@media (max-width: 1000px) {
+  .hobbies-grid { 
+    gap: var(--space-md);
+    grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .hobbies-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    width: 100%;
+  }
+  .hobby-card {
+    min-height: auto;
+    padding: var(--space-md);
+    gap: var(--space-sm);
+  }
+  .hobby-icon {
+    width: 60px;
+    height: 60px;
+  }
+  .hobby-name {
+    font-size: clamp(1rem, 1.2vw, 1.2rem);
+  }
+  .hobby-desc {
+    font-size: clamp(0.85rem, 0.95vw, 0.95rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .hobbies-inner {
+    padding: var(--space-lg) var(--space-sm);
+  }
+  .hobbies-grid { 
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+    width: 100%;
+    margin-top: var(--space-md);
+  }
+  .hobby-card { 
+    min-height: auto;
+    padding: 0.8rem;
+    gap: 0.5rem;
+    border-radius: 10px;
+  }
+  .hobby-icon { 
+    width: 50px;
+    height: 50px;
+  }
+  .hobby-name {
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  }
+  .hobby-desc {
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 480px) {
+  .hobbies-inner {
+    padding: var(--space-md) var(--space-sm);
+  }
+  .hobbies-title {
+    font-size: clamp(1.6rem, 2.8vw, 2rem);
+  }
+  .hobbies-sub {
+    font-size: clamp(0.85rem, 2.2vw, 0.95rem);
+  }
+  .hobbies-grid { 
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+    margin-top: var(--space-md);
+  }
+  .hobby-card { 
+    min-height: auto;
+    padding: 0.7rem;
+    gap: 0.4rem;
+  }
+  .hobby-icon { 
+    width: 45px;
+    height: 45px;
+  }
+  .hobby-name {
+    font-size: clamp(0.9rem, 2.8vw, 1rem);
+  }
+  .hobby-desc {
+    font-size: clamp(0.75rem, 2.2vw, 0.85rem);
+    line-height: 1.3;
+  }
+}
+
+@media (max-width: 320px) {
+  .hobbies-inner {
+    padding: var(--space-md) 0.5rem;
+  }
+  .hobbies-title {
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+  }
+  .hobby-card {
+    padding: 0.6rem;
+    gap: 0.3rem;
+  }
+  .hobby-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+
+
 
 @media (max-width: 700px) {
   .resources-inner { padding: 4vh 1rem; }
@@ -2159,7 +2784,7 @@ textarea {
 }
 
 @media (min-width: 1200px) {
-  .resources-grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+  .resources-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
   .resource-card { padding: 2.25rem; min-height: 200px; }
   .resources-inner { padding: 8vh 0; }
 }
